@@ -77,7 +77,7 @@ def initialise_agent(model='gpt-4o-mini'):
                 )
                 vector_db_path = os.path.join(os.getcwd(), 'vector_databases')
                 
-                db = FAISS.load_local(os.path.join(vector_db_path, column), embeddings, allow_dangerous_deserialization=True)
+                db = FAISS.load_local(os.path.join(vector_db_path, column_name), embeddings, allow_dangerous_deserialization=True)
 
                 # Create document retriever and find most relevant document to player name
                 retriever = db.as_retriever(search_type='mmr', search_kwargs={'k': 5, 'lambda_mult': 1})
