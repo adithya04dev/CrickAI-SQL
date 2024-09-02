@@ -1,0 +1,146 @@
+i have some sample QUERIES .
+
+1.batting satstics query
+WITH 
+  -- Filtered balls data
+  filtered_balls AS (
+    SELECT *
+    FROM bbbdata.ballsnew_2406
+    WHERE insert condition here 
+  ),
+  
+  -- Intermediate innings data
+  innings AS (
+    SELECT 
+      match_no ,
+      SUM(batter_runs)) AS runs  -- use the column batter_runs for individuals , use score for calculating teams.
+      SUM(balls_faced) AS balls, 
+      SUM(batter_out) AS outs,  
+      SUM(CASE WHEN batter_runs = 4 THEN 1 ELSE 0 END) AS fours, 
+      SUM(CASE WHEN batter_runs = 6 THEN 1 ELSE 0 END) AS sixes,
+      SUM(CASE WHEN score = 0 Then 1 else 0 end ) AS dots
+
+    FROM filtered_balls
+    GROUP BY batter/team_bat other that you feel neccesary to group by,
+     match_no
+  ),
+  
+  -- Calculate batting stats
+  batting_stats AS (
+    SELECT 
+      count(distinct(match_no)) as innings, 
+      SUM(runs) AS total_runs, 
+      SUM(balls) AS total_balls, 
+      SUM(outs) AS total_outs, 
+      CASE 
+        WHEN SUM(balls) = 0 THEN 1e308 
+        ELSE SUM(runs) / SUM(balls) * 100 
+      END AS Strike_Rate, 
+      CASE 
+        WHEN SUM(outs) = 0 THEN 1e308 
+        ELSE SUM(runs) / SUM(outs) 
+      END AS Average, 
+      MAX(runs) AS highest_score, 
+      SUM(CASE WHEN runs >= 50 AND runs < 100 THEN 1 ELSE 0 END) AS fifties, 
+      SUM(CASE WHEN runs >= 100 THEN 1 ELSE 0 END) AS hundreds, 
+      SUM(fours) AS total_fours, 
+      SUM(sixes) AS total_sixes, 
+      CASE 
+        WHEN SUM(balls) = 0 THEN 1e308 
+        ELSE SUM(dots) / SUM(balls) * 100 
+      END AS dot_percent, 
+    FROM innings
+    GROUP BY batter batter/team_bat other that you feel neccesary to group by,  
+  )
+
+SELECT 
+  innings, 
+  total_runs, 
+  total_balls, 
+  total_outs, 
+  CASE 
+    WHEN Average = 1e308 THEN NULL 
+    ELSE ROUND(Average, 2) 
+  END as Average, 
+  CASE 
+    WHEN Strike_Rate = 1e308 THEN null 
+    ELSE ROUND(Strike_Rate, 2) 
+  END AS Strike_Rate, 
+    CASE 
+    WHEN dot_percent = 1e308 THEN null 
+    ELSE ROUND(dot_percent, 2) 
+  END AS Dot_Percentage,
+  highest_score AS hs, 
+  fifties, 
+  hundreds, 
+  total_fours, 
+  total_sixes, 
+FROM batting_stats;
+
+
+2.bowling stats query 
+
+WITH 
+  -- Filtered balls data
+  filtered_balls AS (
+    SELECT *
+    FROM bbbdata.ballsnew_2406
+    WHERE insert condition here 
+  ),
+  
+  -- Intermediate bowling data
+  bowling AS (
+    SELECT 
+      bowler/team_bowl or other u need ,
+      match_no,
+      SUM(batter_out) AS wickets,
+      SUM(bowler_runs) AS runs_conceded,
+      SUM(balls_faced) AS balls_bowled,
+      SUM(CASE WHEN score = 0 THEN 1 ELSE 0 END) AS dot_balls,
+      SUM(CASE WHEN batter_runs IN (4, 6) THEN 1 ELSE 0 END) AS boundary_balls
+    FROM filtered_balls
+    GROUP BY bowler/team_bowl, match_no
+  ),
+  
+  -- Calculate bowling stats
+  bowling_stats AS (
+    SELECT 
+      bowler,
+      COUNT(DISTINCT match_no) AS innings,
+      SUM(wickets) AS total_wickets,
+      SUM(runs_conceded) AS total_runs_conceded,
+      SUM(balls_bowled) AS total_balls_bowled,
+      SUM(dot_balls) AS total_dot_balls,
+      SUM(boundary_balls) AS total_boundary_balls,
+      CASE 
+        WHEN SUM(wickets) = 0 THEN NULL 
+        ELSE SUM(runs_conceded) / SUM(wickets) 
+      END AS average,
+      CASE 
+        WHEN SUM(balls_bowled) = 0 THEN NULL 
+        ELSE (SUM(runs_conceded) / SUM(balls_bowled)) * 6 
+      END AS economy_rate,
+      CASE 
+        WHEN SUM(balls_bowled) = 0 THEN NULL 
+        ELSE (SUM(dot_balls) / SUM(balls_bowled)) * 100 
+      END AS dot_ball_percentage,
+      CASE 
+        WHEN SUM(balls_bowled) = 0 THEN NULL 
+        ELSE (SUM(boundary_balls) / SUM(balls_bowled)) * 100 
+      END AS boundary_percentage
+    FROM bowling
+    GROUP BY bowler/team_bowl, match_no
+  )
+
+SELECT 
+  bowler,
+  innings,
+  total_wickets,
+  total_runs_conceded,
+  total_balls_bowled,
+  ROUND(average, 2) AS average,
+  ROUND(economy_rate, 2) AS economy_rate,
+  ROUND(dot_ball_percentage, 2) AS dot_ball_percentage,
+  ROUND(boundary_percentage, 2) AS boundary_percentage
+FROM bowling_stats
+ORDER BY total_wickets DESC;
