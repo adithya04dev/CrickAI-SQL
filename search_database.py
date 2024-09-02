@@ -10,6 +10,7 @@ from langchain.agents import AgentExecutor, create_react_agent
 import time
 import requests
 import re
+import os
 import ast
 import requests
 import os
@@ -74,7 +75,9 @@ def initialise_agent(model='gpt-4o-mini'):
                 embeddings = OpenAIEmbeddings(
                     model='text-embedding-ada-002'
                 )
-                db = FAISS.load_local(fr"C:\Users\adith\Documents\Projects\python-projects\CRICAI-SQL\vector_databases\{column_name}", embeddings, allow_dangerous_deserialization=True)
+                vector_db_path = os.path.join(os.getcwd(), 'vector_databases')
+                
+                db = FAISS.load_local(os.path.join(vector_db_path, column), embeddings, allow_dangerous_deserialization=True)
 
                 # Create document retriever and find most relevant document to player name
                 retriever = db.as_retriever(search_type='mmr', search_kwargs={'k': 5, 'lambda_mult': 1})
