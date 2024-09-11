@@ -28,11 +28,10 @@ This project introduces an AI-assisted SQL engine tailored for cricket data anal
 * **SQL:** For data querying.
 * **BigQuery:** Backend for executing SQL queries.
 
-**Note:** This README could be further enhanced by adding:
+**Note:** This README needs tp be further enhanced :
 
 * **Screenshots or demos:** Visualize the tool's functionality.
 * **Installation instructions:** Guide users on setting up the project.
 * **Usage examples:** Provide practical examples of queries and results.
 * **Contribution guidelines:** Encourage others to contribute to the project.
 
-By incorporating these elements, your README will become more informative and engaging, attracting a wider audience.
