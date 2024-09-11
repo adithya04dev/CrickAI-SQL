@@ -1,37 +1,15 @@
-### About
+# About
 
-**Cricket Analytics Made Easy**
+This project features an intuitive AI-assisted SQL engine designed specifically for cricket data analysis. The engine simplifies the calculation of complex and granular statistics, enhancing the way cricket analytics are performed.
 
-This project introduces an AI-assisted SQL engine tailored for cricket data analysis. Its intuitive interface simplifies complex calculations, making cricket analytics more accessible and efficient.
+In layman terms, it's just ChatGPT with a SQL query executing capability in Google BigQuery with a searching agent. More complex queries/granular stats can be calculated by a human with basic SQL and cricket knowledge, as they can iterate/give feedback based on queries or the results generated from queries. Thus, it focuses on business logic (i.e., Cricket), not plumbing.
 
-**Key Features:**
+A similar project I had made is SQL Assistant, which uses LangGraph to generate stats/results following certain steps/stages iteratively rather than being chat-based.
 
-* **AI-Powered SQL:** Streamline complex statistical calculations.
-* **User-Friendly Interface:** Easily interact with cricket data.
-* **Iterative Feedback:** Refine queries and results with real-time feedback.
+Link: [https://github.com/adithya04dev/advanced-cricket-stats](https://github.com/adithya04dev/advanced-cricket-stats)
 
-**How it Works:**
+## Technologies/Packages Used
 
-1. **Query:** Ask questions or request specific statistics.
-2. **Analysis:** The AI-powered engine processes your query.
-3. **Iterate:** Provide feedback to refine the results.
-
-**Similar Projects:**
-
-* **SQL Assistant:** A previous project using LangGraph for iterative stat generation.
-
-**Link:** [https://github.com/adithya04dev/advanced-cricket-stats](https://github.com/adithya04dev/advanced-cricket-stats)
-
-### Technologies Used
-
-* **Langchain:** For chat-based interaction and preprocessing.
-* **SQL:** For data querying.
-* **BigQuery:** Backend for executing SQL queries.
-
-**Note:** This README needs tp be further enhanced :
-
-* **Screenshots or demos:** Visualize the tool's functionality.
-* **Installation instructions:** Guide users on setting up the project.
-* **Usage examples:** Provide practical examples of queries and results.
-* **Contribution guidelines:** Encourage others to contribute to the project.
-
+- **Langchain**: For the chat-based component of this system that can respond based on user suggestions. Also using Langchain tool calling agent (specifically ReAct) for preprocessing step in the initial phase.
+- **SQL**: For data querying.
+- **BigQuery**: Backend for executing SQL queries.
