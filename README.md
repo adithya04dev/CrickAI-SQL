@@ -7,9 +7,12 @@ This project features an intuitive AI-assisted SQL engine designed specifically 
 The engine simplifies the calculation of complex and granular statistics, enhancing the way cricket analytics are performed.    
 In layman terms its just chatgpt with a sql query executing capabilty in google bigquery with searching agent.   
 More and complex queries/granular stats can be calculated by a human with basic sql,cricket knowledge as he can iterate/give feedback based on queries or the   
-result generated on queries.Thus code business(i.e Cricket) logic, not plumbing.   
-Similar project to this https://github.com/adithya04dev/advanced-cricket-stats:  But rather than chat based(in this case), used langgraph to itself generate stats/results  
- following certain steps iteratively.    
+result generated on queries.Thus code business(i.e Cricket) logic, not plumbing.  
+    
+   
+   
+Similar project to this project i had mad sql assitant using langgraph to itself generate stats/results  following certain steps/stages iteratively rather than than chat based.   
+Link: https://github.com/adithya04dev/advanced-cricket-stats
 
 ## Technologies/Packages Used
 
