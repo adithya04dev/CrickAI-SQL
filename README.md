@@ -1,21 +1,38 @@
-# AI-Assisted SQL Engine for Cricket Data (Cursor for Cricket Analytics).
+### About
 
+**Cricket Analytics Made Easy**
 
-## About
+This project introduces an AI-assisted SQL engine tailored for cricket data analysis. Its intuitive interface simplifies complex calculations, making cricket analytics more accessible and efficient.
 
-This project features an intuitive AI-assisted SQL engine designed specifically for cricket data analysis.    
-The engine simplifies the calculation of complex and granular statistics, enhancing the way cricket analytics are performed.    
-In layman terms its just chatgpt with a sql query executing capabilty in google bigquery with searching agent.   
-More and complex queries/granular stats can be calculated by a human with basic sql,cricket knowledge as he can iterate/give feedback based on queries or the result generated on queries.Thus code business(i.e Cricket) logic, not plumbing.  
-    
-   
-   
-Similar project to this project i had mad sql assitant using langgraph to itself generate stats/results  following certain steps/stages iteratively rather than than chat based.   
-Link: https://github.com/adithya04dev/advanced-cricket-stats
+**Key Features:**
 
-## Technologies/Packages Used
+* **AI-Powered SQL:** Streamline complex statistical calculations.
+* **User-Friendly Interface:** Easily interact with cricket data.
+* **Iterative Feedback:** Refine queries and results with real-time feedback.
 
-- **Langchain**: For chat based component of this sytem,that can respond based on user suggestions.And also using langchain tool calling agent(specifically ReAct) for preprocessing step in inital phase
-- **SQL**: For data querying.
-- **Bigquery**: Backend for executing sql queries.
+**How it Works:**
 
+1. **Query:** Ask questions or request specific statistics.
+2. **Analysis:** The AI-powered engine processes your query.
+3. **Iterate:** Provide feedback to refine the results.
+
+**Similar Projects:**
+
+* **SQL Assistant:** A previous project using LangGraph for iterative stat generation.
+
+**Link:** [https://github.com/adithya04dev/advanced-cricket-stats](https://github.com/adithya04dev/advanced-cricket-stats)
+
+### Technologies Used
+
+* **Langchain:** For chat-based interaction and preprocessing.
+* **SQL:** For data querying.
+* **BigQuery:** Backend for executing SQL queries.
+
+**Note:** This README could be further enhanced by adding:
+
+* **Screenshots or demos:** Visualize the tool's functionality.
+* **Installation instructions:** Guide users on setting up the project.
+* **Usage examples:** Provide practical examples of queries and results.
+* **Contribution guidelines:** Encourage others to contribute to the project.
+
+By incorporating these elements, your README will become more informative and engaging, attracting a wider audience.
