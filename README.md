@@ -13,3 +13,24 @@ Link: [https://github.com/adithya04dev/advanced-cricket-stats](https://github.co
 - **Langchain**: For the chat-based component of this system that can respond based on user suggestions. Also using Langchain tool calling agent (specifically ReAct) for preprocessing step in the initial phase.
 - **SQL**: For data querying.
 - **BigQuery**: Backend for executing SQL queries.
+
+## Architecture
+![Architecture](./vector_databases/Screenshot 2024-09-20 084855.png)
+
+
+
+
+   ## Screenshots
+![s1](./vector_databases/csql-1.png)  
+![s1](./vector_databases/csql-2.png)  
+![s1](./vector_databases/csql-3.png)
+![s1](./vector_databases/csql-4.png)
+![s1](./vector_databases/csql-5.png)
+![s1](./vector_databases/csql-6.png)
+![s1](./vector_databases/csql-7.png)
+
+
+
+
+
+
