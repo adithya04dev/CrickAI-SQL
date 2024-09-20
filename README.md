@@ -15,7 +15,7 @@ Link: [https://github.com/adithya04dev/advanced-cricket-stats](https://github.co
 - **BigQuery**: Backend for executing SQL queries.
 
 ## Architecture
-![Architecture](./vector_databases/Screenshot 2024-09-20 084855.png)
+![Architecture](./vector_databases/Screenshot%202024-09-20%20084855.png)
 
 
 
