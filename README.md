@@ -16,7 +16,7 @@ Link: [https://github.com/adithya04dev/advanced-cricket-stats](https://github.co
 
 ## Architecture
 ![Architecture](./vector_databases/Screenshot%202024-09-20%20084855.png)
-![Architecture](./vector_databases/Screenshot%202024-09-20%200845949.png)
+![Architecture](./vector_databases/Screenshot%202024-09-20%20085949.png)
 
 
 
