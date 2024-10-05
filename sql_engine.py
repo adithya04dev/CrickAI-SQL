@@ -5,6 +5,7 @@ import re
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, PromptTemplate
 from langchain_core.runnables import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_google_genai import ChatGoogleGenerativeAI
 task=""" 
 I have a ball by ball  database of cricket matches named bbbdata.ballsnew_2406 in bigquery.
 
@@ -27,9 +28,26 @@ Suggestions:
 1.Use backslash as delimeter before ' is present in sql query.
 
  """
+
+with open('schema.txt', 'r') as file:
+    schema = file.read()
+with open('sample_codes.txt', 'r') as file:
+    sample_codes = file.read()
+verifier_system_prompt = f"""Remeber this as Context:
+I have a ball by ball  database of cricket matches.
+The schema of the database is as follows:
+{schema}
+The sample queries for calculating metrics on this database are:
+{sample_codes}
+
+I will give u task later based on this database. Understand and remember this context.
+
+"""
+
+
 critique = """
 
-I have a ball by ball  database of cricket matches.
+
 My assistant had wrote this sql query for finding the answer for this user query: {user_query}.
 His SQL Query: {sql_query}.
 
@@ -38,22 +56,17 @@ Can u check/verify step by step if he committed any logical error in writing sql
 
 
 
-For more detailed info: 
-This are some of my codes which are logically correct i use : {sample_codes}.
-
 
 
 And finally return the final sql query.
 
 
 """
-with open('schema.txt', 'r') as file:
-    schema = file.read()
-with open('sample_codes.txt', 'r') as file:
-    sample_codes = file.read()
+
 def critiquer_chat():
     """ return a chat object of critiquer """
-    critiquer_llm=ChatOpenAI(model='gpt-4o-mini')
+    # critiquer_llm=ChatOpenAI(model='gpt-4o-mini')
+    critiquer_llm=ChatGoogleGenerativeAI(model="gemini-1.5-pro-002",temperature=0.1)
     prompt = ChatPromptTemplate.from_messages(
         [
             (
@@ -73,6 +86,7 @@ def critiquer_chat():
         input_messages_key="input",
         history_messages_key="chat_history",
     )
+    result=chat.invoke({"input": verifier_system_prompt},{"configurable": {"session_id": "unused"}})
     return chat
 
 
@@ -80,7 +94,8 @@ def critiquer_chat():
 def generate_initial_query(user_query,res_gem,sample_codes=sample_codes):
     """ generate initial vague sql query that needs to iterated on """
     global critique,task
-    llm=ChatOpenAI(model='gpt-4o-mini')
+    # llm=ChatOpenAI(model='gpt-4o-mini')
+    llm=ChatGoogleGenerativeAI(model="gemini-1.5-flash-002",temperature=0.1)
     f_user_query=task.format(user_query=user_query,res_gem=res_gem,schema=schema,sample_codes=sample_codes)
     model_response=llm.invoke(f_user_query).content 
     model_initial_sql_query = get_sql_query(model_response)
@@ -89,7 +104,7 @@ def generate_initial_query(user_query,res_gem,sample_codes=sample_codes):
 
 def generate_critique_query(user_query,sql_query,res_gem,critiquer_chat,model_initial_sql_query,sample_codes=sample_codes):
     #pass initial randomly generated sql query to critiquer to verify its correctness..step by step
-    critique_prompt=critique.format(user_query=user_query,sql_query=model_initial_sql_query,schema=schema,res_gem=res_gem,sample_codes=sample_codes)        
+    critique_prompt=critique.format(user_query=user_query,sql_query=model_initial_sql_query,res_gem=res_gem)        
     critique_response=critiquer_chat.invoke({"input": critique_prompt},{"configurable": {"session_id": "unused"}}).content
     return critique_response
 

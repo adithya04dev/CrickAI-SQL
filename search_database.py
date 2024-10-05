@@ -14,13 +14,19 @@ import os
 import ast
 import requests
 import os
-def initialise_agent(model='gpt-4o-mini'):
+import os
+from langchain_together import ChatTogether
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+def initialise_agent(model='gpt-4o-mini2'):
     if model=='sonnet':
         llm = ChatAnthropic(temperature=0, model_name="claude-3-sonnet-20240229")
     elif model =='gpt-4o-mini':
         llm = ChatOpenAI(model="gpt-4o-mini")
     else:
-        llm = ChatGroq(model='llama-3.1-70b-versatile')  
+        # llm = ChatGroq(model='llama-3.1-70b-versatile')  
+        # llm=ChatTogether(model='meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo')
+        llm=ChatGoogleGenerativeAI(model="gemini-1.5-flash-002",temperature=0.1)
     @tool
     def get_value_from_column(list1:str) -> str:
         """
@@ -30,7 +36,7 @@ def initialise_agent(model='gpt-4o-mini'):
 
         """
         def get_value_from_column1(list1:list) -> str:
-
+            # print(list1)
 
 
             column_name=list1[0]
@@ -54,6 +60,7 @@ def initialise_agent(model='gpt-4o-mini'):
                 response = requests.get(URL, headers=HEADERS, params=PARAMS)
                 results = response.json()
                 flag = False
+                # print(results)
 
                 for result in results["webPages"]["value"]:
                     url = result["url"]
@@ -244,18 +251,25 @@ agent=initialise_agent()
 def parse_search_agent_response(result):
     intermediate_output=""
     # print("in parse_search_agent_response",result)
+    
     for step in result['intermediate_steps']:
         intermediate_output += f"{step[0].log } \n"  
-        for i in step[1]:
-            intermediate_output += f" {i} \n \n"
+        if type(step[1])==str:
+            intermediate_output += f"{step[1]} \n"
+        else:   
+            for i in step[1]:
+                intermediate_output += f" {i} \n \n"
     # { result['input']}\n   
     string=f" {intermediate_output}  \n {result['output']}  \n   "
     return result,string
 
-def search(user_query,model='gpt-4o-mini',stream=True):
+def search(user_query):
 
     global agent
-
-    result=agent.invoke({"input": user_query})
+    try:
+        result=agent.invoke({"input": user_query})
+    except Exception as e:
+        print(e)
+        return "error",str(e)
 
     return parse_search_agent_response(result)
