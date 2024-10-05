@@ -374,7 +374,7 @@ def get_json(model_response: str):
     else:
         return None
 def main(df,query):
-    client = DatawrapperClient(api_token=DATAWRAPPER_API_TOKEN)
+    client = DatawrapperClient(api_token=os.environ['DATAWRAPPER_API_TOKEN'])
 
     # data = {
     #     "Batsman": ["Player A", "Player B", "Player C", "Player D"],
