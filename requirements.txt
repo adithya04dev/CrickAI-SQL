@@ -16,3 +16,5 @@ langchain-community
 seaborn
 matplotlib
 faiss-cpu
+requests
+langchain-google-genai
