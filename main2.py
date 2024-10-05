@@ -151,7 +151,7 @@ elif option == "Querying":
             if bigquery_json['response'] == 'error':
                 st.session_state.error = bigquery_json['error']
                 add_markdown(f"Error: {st.session_state.error}", "assistant")
-                add_markdown("Above is the result of Execution \n Now u can Ask AI for rectifications if needed or can go to visualisation mode")
+                add_markdown("Above is the result of Execution\n Now u can Ask AI for rectifications if needed or can go to visualisation mode","assistant")
 
                 st.rerun()
                 
@@ -162,7 +162,7 @@ elif option == "Querying":
                 st.session_state.data_frame = dataframe
                 st.chat_message("assistant").dataframe(dataframe)
                 st.session_state.messages.append({"role": "bigquery", "content": dataframe.to_dict()})
-                add_markdown("Above is the result of Execution\n Now u can Ask AI for rectifications if needed or can go to visualisation mode")
+                add_markdown("Above is the result of Execution\n Now u can Ask AI for rectifications if needed or can go to visualisation mode","assistant")
 
                 st.rerun()
 
